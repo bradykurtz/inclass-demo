@@ -1,6 +1,7 @@
 package edu.weber;
 
 import java.io.IOException;
+import java.util.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,7 +25,17 @@ public class MyFirstServlet extends HttpServlet
 				new Address("123 main", "kaysville", "utah", "84037", "USA")
 		);
 		
-		req.setAttribute("contact", contact);
+		Contact contact2 = new Contact(
+				"Romela", 
+				"A", 
+				"111-111-1111", 
+				new Address("123 main", "kaysville", "utah", "84037", "USA")
+		);
+
+		List<Contact> contacts = new ArrayList<Contact>();
+		contacts.add(contact);
+		contacts.add(contact2);
+		req.setAttribute("contacts", contacts);
 		req.getRequestDispatcher("/jsp/index.jsp").forward(req, resp);
 	}
 	
