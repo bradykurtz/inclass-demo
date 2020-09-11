@@ -1,6 +1,7 @@
 package edu.weber;
 
 import static org.junit.Assert.assertTrue;
+import java.util.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -23,6 +24,7 @@ import edu.weber.model.Contact;
 import edu.weber.service.ContactService;
 import junit.framework.Assert;
 
+import org.mockito.ArgumentCaptor;
 import org.mockito.ArgumentMatchers;
 /**
  * Unit test for simple App.
@@ -54,22 +56,30 @@ public class AppTest
     public void testThatPostAddsContact() throws ServletException, IOException {
     	MyFirstServlet firstServlet = new MyFirstServlet();
     	   	
-    	HttpServletRequest  mockedRequest = Mockito.spy(HttpServletRequest.class);
+    	HttpServletRequest  mockedRequest = Mockito.mock(HttpServletRequest.class);
     	RequestDispatcher  mockedDispatcher = Mockito.mock(RequestDispatcher.class);
+    	
     	Mockito.when(mockedRequest.getParameter("fname")).thenReturn(null);
-//    	Mockito.when(mockedRequest.getAttribute("error")).thenReturn("FirstName Is Empty");
     	Mockito.when(mockedRequest.getRequestDispatcher(ArgumentMatchers.anyString())).thenReturn(mockedDispatcher);
+    	
     	HttpServletResponse  mockedResponse = Mockito.mock(HttpServletResponse.class);
+    	ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
     	
     	firstServlet.doPost(mockedRequest, mockedResponse);
-    	Assert.assertEquals("FirstName Is Empty", mockedRequest.getAttribute("error"));
+    	Mockito.verify(mockedRequest).setAttribute(Mockito.eq("error"), captor.capture());
+    	String errorValue = captor.getValue();
+    	
+    	Assert.assertEquals("FirstName Is Empty", errorValue);
     }
     
     private Contact createContact() {
+    	List<Address> addresses = new ArrayList<Address>() {{
+    		add(new Address("123 main", "kaysville", "utah", "84037", "USA"));
+    	}};
     	return new Contact(
 				"Test", 
 				"Test", 
 				"111-111-1111", 
-				new Address("123 main", "kaysville", "utah", "84037", "USA"));
+				addresses);
     }
 }
