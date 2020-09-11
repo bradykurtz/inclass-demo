@@ -15,28 +15,39 @@ import edu.weber.model.Contact;
 @WebServlet(name="MyFirstServlet", urlPatterns="/")
 public class MyFirstServlet extends HttpServlet
 {
+	
+	private static List<Contact> contacts = new ArrayList<Contact>();
+	
+	static {
+		contacts.add(new Contact());
+	}
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		Contact contact = new Contact(
-				"Brady", 
-				"Kurtz", 
-				"111-111-1111", 
-				new Address("123 main", "kaysville", "utah", "84037", "USA")
-		);
-		
-		Contact contact2 = new Contact(
-				"Romela", 
-				"A", 
-				"111-111-1111", 
-				new Address("123 main", "kaysville", "utah", "84037", "USA")
-		);
 
-		List<Contact> contacts = new ArrayList<Contact>();
-		contacts.add(contact);
-		contacts.add(contact2);
-		req.setAttribute("contacts", contacts);
+		req.setAttribute("contacts", getContacts());
 		req.getRequestDispatcher("/jsp/index.jsp").forward(req, resp);
+	}
+	
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+		//GET CONTACT FROM FORM
+		//VALIDATION
+		String firstName = req.getParameter("fname");
+		
+		if(firstName == null) {
+			req.setAttribute("error", "FirstName Is Empty");
+		}
+		
+		contacts.add(new Contact());
+		
+		req.getRequestDispatcher("/jsp/index.jsp").forward(req, resp);
+	}
+	
+	
+	protected List<Contact> getContacts() {
+		return contacts;
 	}
 	
 }

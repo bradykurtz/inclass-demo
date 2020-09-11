@@ -9,8 +9,6 @@
 </head>
 <body>
 	Welcome to Class 
-	<c:forEach items="${contacts}" var="contact">
-		<w:Hello name="${contact.firstName} ${contact.lastName}"/>
-	</c:forEach>
+
 </body>
 </html>

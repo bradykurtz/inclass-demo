@@ -3,6 +3,8 @@ import java.io.Serializable;
 
 public class Address implements Serializable {
 	
+	private String id;
+	
 	private String addressLine1;
 	
 	private String addressLine2;
@@ -14,6 +16,8 @@ public class Address implements Serializable {
 	private String postalCode;
 	
 	private String country;
+	
+	private String type;
 
 	
 	
@@ -83,6 +87,22 @@ public class Address implements Serializable {
 
 	public void setCountry(String country) {
 		this.country = country;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 	
 	

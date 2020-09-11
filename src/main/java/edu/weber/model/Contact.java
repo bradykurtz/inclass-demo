@@ -1,5 +1,6 @@
 package edu.weber.model;
 import java.io.Serializable;
+import java.util.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -9,24 +10,22 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Contact implements Serializable {
 	
-	@JsonProperty("fn")
+	private String id;
+	
 	private String firstName;
 	
-	@JsonProperty("ln")
 	private String lastName;
 	
-	@JsonProperty("pn")
 	private String phoneNumber;
 	
-	@JsonProperty("a")
-	private Address address;
+	private List<Address> addresses;
 	
-	public Contact(String firstName, String lastName, String phoneNumber, Address address) {
+	public Contact(String firstName, String lastName, String phoneNumber, List<Address> addresses) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.phoneNumber = phoneNumber;
-		this.address = address;
+		this.addresses = addresses;
 	}
 
 	public Contact() {
@@ -57,12 +56,28 @@ public class Contact implements Serializable {
 		this.phoneNumber = phoneNumber;
 	}
 
-	public Address getAddress() {
-		return address;
+
+	public void addAddress(Address address) {
+        if(addresses == null) {
+            addresses = new ArrayList<>();
+        }
+        addresses.add(address);
+    }
+
+	public String getId() {
+		return id;
 	}
 
-	public void setAddress(Address address) {
-		this.address = address;
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public List<Address> getAddresses() {
+		return addresses;
+	}
+
+	public void setAddresses(List<Address> addresses) {
+		this.addresses = addresses;
 	}
 	
 	
